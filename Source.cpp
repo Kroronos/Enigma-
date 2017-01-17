@@ -318,8 +318,34 @@ public:
 	}
 
 	string reverseCylinderPass(string a) {
-		string reverseCylinderEncoded;
-		return reverseCylinderEncoded;
+		string reverseCylinderDecoded;
+		vector <cylinder> resetCylinderPosition = cylinderComp;
+		for (int i = 0; i < a.size(); i++) {
+			char toBeDecoded = a[i];
+			char decoded = reverseCylinderPartialPass(toBeDecoded);
+			reverseCylinderDecoded.push_back(decoded);
+		}
+
+		cylinderComp = resetCylinderPosition;
+		return reverseCylinderDecoded;
+	}
+	
+	char reverseCylinderPartialPass(char a) {
+		for (int i = cylinderComp.size() - 1; i >= 0; i--) {
+			int access = cylinderComp[i].matchingCharToExitSideIndex(a);
+			a = cylinderComp[i].matchingEntrySideIndexToChar(access);
+		}
+
+		cylinderComp[0].rotateCylinder();
+		for (int j = 0; j < cylinderComp.size(); j++) {
+			if (j != 0) {
+				if (cylinderComp[j - 1].getTimesRotated() % cylinderRotationIncrement == 0) {
+					cylinderComp[j].rotateCylinder();
+				}
+			}
+		}
+
+		return a; 
 	}
 
 	string cylinderPass(string a) {
@@ -341,6 +367,7 @@ public:
 			a = cylinderComp[i].matchingExitSideIndexToChar(access);
 		}
 		cylinderComp[0].rotateCylinder();
+
 		for (int j = 0; j < cylinderComp.size(); j++) {
 			if (j != 0) {
 				if (cylinderComp[j - 1].getTimesRotated() % cylinderRotationIncrement == 0) {
@@ -427,29 +454,26 @@ int main() {
 					}
 				}
 			}
-
+			int encodeSelection;
 			if (verification == 0) {
 				cout << listOfMachines[creationSelection - 1].getName() << " selected. \n";
-				creationSelection = 0;
 				cout << "Would you like to encode or decode a message? \n" << endl;
 				cout << "1. Encode \n";
 				cout << "2. Decode \n";
-				cin >> creationSelection;
-				creationSelection = abs(creationSelection);
+				cin >> encodeSelection;
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-				while (creationSelection < 1 || creationSelection > 2) {
+				while (encodeSelection < 1 || encodeSelection > 2) {
 					cout << "Invalid selection. Please make a valid selection. \n" << endl;
 					cout << "1. Encode \n";
 					cout << "2. Decode \n";
-					cin >> creationSelection;
-					creationSelection = abs(creationSelection);
+					cin >> encodeSelection;
 					cin.clear();
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				}
 				//Encode a message : Cylinder pathing -> Plugboard swapping
-				if (creationSelection == 1) {
+				if (encodeSelection == 1) {
 					cout << "\n" << "Please type in your message. \n";
 					getline(cin, message);
 
@@ -458,11 +482,12 @@ int main() {
 				}
 
 				//Decode a message : Plugboard reverse conversion -> Reverse cylinder 
-				if (creationSelection == 2) {
+				if (encodeSelection == 2) {
 					cout << "\n" << "Please type in your message. \n";
 					getline(cin, message);
 
-
+					string decodedMessage = listOfMachines[creationSelection - 1].decodeMessage(message);
+					cout << "\n" << decodedMessage << "\n" << endl;
 
 				}
 			}
