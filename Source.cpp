@@ -5,6 +5,8 @@
 #include <cstring>
 #include <stdlib.h>
 #include <cstdlib>
+#include <ctime>
+
 using namespace std;
 //Declare necessary classes for main
 class cylinder {
@@ -13,10 +15,10 @@ private:
 	//Disposable Aplhabets used in Cylinder generation
 	vector<char> entryAlphabet = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W', 'X','Y','Z',
 		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w', 'x','y','z',
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '!', '@', '#', '$', '?', '\'', '"', ':', ';', '-', '+', '=', ' ' };
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '!', '@', '#', '$', '?', ',', '"', ':', ';', '-', '+', '=', ' ' };
 	vector<char> exitAlphabet = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W', 'X','Y','Z',
 		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w', 'x','y','z',
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '!', '@', '#', '$', '?', '\'', '"', ':', ';', '-', '+', '=', ' ' };
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '!', '@', '#', '$', '?', ',', '"', ':', ';', '-', '+', '=', ' ' };
 
 	//Entry sides represent the character passed through cylinder, while exitSides represent the character returned 
 	vector<char> entrySides;
@@ -43,6 +45,7 @@ public:
 	}
 
 	void generateRandomIDCylinder() {
+		srand(time(0));
 		for (int i = 75; i >= 0; i--) {
 			//Used for alphabet array access as well as to give a unique id to each cylinder
 			int id;
@@ -79,6 +82,7 @@ public:
 				return i;
 			}
 		}
+		cout << a; 
 		return -1; 
 	}
 
@@ -88,6 +92,7 @@ public:
 				return i;
 			}
 		}
+		cout << a;
 		return -1;
 	}
 
@@ -125,7 +130,7 @@ private:
 	int cylinderRotationIncrement = 10;
 	char alphabet[76] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W', 'X','Y','Z',
 		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w', 'x','y','z',
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '!', '@', '#', '$', '?', '\'', '"', ':', ';', '-', '+', '=', ' '};
+		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '!', '@', '#', '$', '?', ',', '"', ':', ';', '-', '+', '=', ' '};
 	char *plugboard[76];
 public:
 
@@ -204,7 +209,7 @@ public:
 				arrayIA = 67;
 			}
 
-			if (a == '\'') {
+			if (a == ',') {
 				arrayIA = 68;
 			}
 
