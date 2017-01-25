@@ -8,6 +8,8 @@
 #include <ctime>
 
 using namespace std;
+
+
 //Declare necessary classes for main
 class cylinder {
 
@@ -30,10 +32,14 @@ private:
 	int timesRotated = 0;
 
 public:
-	//Contructor
+	//Default constructor
 	cylinder() {
 		generateRandomIDCylinder();
-		trueID = entryID + "&" + exitID;;
+		trueID = entryID + "&" + exitID;
+	}
+
+	//Import Constructor
+	cylinder(string ID) {
 	}
 
 	int getTimesRotated() {
@@ -421,8 +427,9 @@ int listMachines(vector<machine> a) {
 }
 
 int main() {
+
+	//Weelcome Message, Initial Declarations, Menu 
 	cout << "Welcome to Enigma++ \n";
-	char *death[1];
 	int userSelection = 0;
 	vector<machine> listOfMachines;
 	listOfMachines.reserve(4);
@@ -528,10 +535,32 @@ int main() {
 			listOfMachines.push_back(createdMachine);
 		}
 
+		//Clone Machine
 		if (userSelection == 3) {
-	
+			//reset selection value
+			creationSelection = 0;
+
+			while (creationSelection == 0) {
+				cout << "Which machine do you wish to make a copy of? \n";
+				listMachines(listOfMachines);
+
+				cin >> creationSelection;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+				if (creationSelection == 0 || creationSelection > size(listOfMachines)) {
+					cout << "Please enter a valid selection. \n";
+					cout << endl;
+					creationSelection = 0;
+				}
+				//Create new machine equivalent to selected machine and add it to machine array
+				machine cloneMachine = listOfMachines[creationSelection - 1];
+				listOfMachines.push_back(cloneMachine);
+			}
+
 		}
 
+		//Change settings
 		if (userSelection == 4) {
 			int validation = 0;
 			while (creationSelection == 0 && validation == 0) {
@@ -547,6 +576,7 @@ int main() {
 				if (creationSelection == 0 || creationSelection > size(listOfMachines)) {
 					cout << "Please enter a valid selection. \n";
 					cout << endl;
+					creationSelection = 0;
 				}
 			}
 			if (validation == 0) {
@@ -605,17 +635,20 @@ int main() {
 
 		}
 
+		
 		if (userSelection == 5) {
 			cout << "Select a machine? \n";
 			listMachines(listOfMachines);
 		}
 
+		//Export machine
 		if (userSelection == 6) {
-			cout << "How would you like to export your machine? \n" << "1. Plain-Text Code? \n" << "2. Text File? \n";
+			cout << "How would you like to export your machine? \n" << "1. Plain-Text Code in Console? \n" << "2. Text File? \n";
 			cout << "What machine would you like to use? \n";
 			listMachines(listOfMachines);
 		}
 
+		//Error message
 		if (userSelection < 1 || userSelection > 7) {
 			cout << "An incorrect input has been detected. Please enter a valid input. \n";
 		}
